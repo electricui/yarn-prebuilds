@@ -2,6 +2,12 @@
 
 For Yarn v2.
 
+To install, import from the repository.
+
+```
+yarn plugin import https://raw.githubusercontent.com/electricui/yarn-prebuilds/master/bundles/%40yarnpkg/plugin-prebuilds.js
+```
+
 The [bindings](https://github.com/TooTallNate/node-bindings) package creates a runtime error in order to reflect its caller's filepath, which is used to search the filesystem for the correct `.node` native binding.
 
 This plugin intercepts packages with dependencies to `bindings` and automatically grabs the prebuild for that version. If `electron` is in your dependencies list, the runtime is set to `electron`.
