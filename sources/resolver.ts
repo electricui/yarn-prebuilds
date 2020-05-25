@@ -1,7 +1,5 @@
-import {Descriptor, Locator, Package}                                              from '@yarnpkg/core';
-import {DescriptorHash, LinkType, MinimalResolveOptions, ResolveOptions, Resolver} from '@yarnpkg/core';
+import {Descriptor, Locator, Package, Resolver, ResolveOptions, MinimalResolveOptions, DescriptorHash, LinkType, structUtils} from '@yarnpkg/core';
 
-import {structUtils}                                                               from '@yarnpkg/core';
 
 export class PrebuildResolver implements Resolver {
   supportsDescriptor(descriptor: Descriptor, opts: MinimalResolveOptions) {
@@ -34,7 +32,7 @@ export class PrebuildResolver implements Resolver {
     if (!opts.fetchOptions)
       throw new Error(`Assertion failed: This resolver cannot be used unless a fetcher is configured`);
 
-    return [structUtils.makeLocator(structUtils.parseIdent("bindings"), descriptor.range)];
+    return [structUtils.makeLocator(structUtils.parseIdent(`bindings`), descriptor.range)];
   }
 
   async resolve(locator: Locator, opts: ResolveOptions): Promise<Package> {
@@ -55,6 +53,6 @@ export class PrebuildResolver implements Resolver {
       peerDependenciesMeta: new Map(),
 
       bin: new Map(),
-    }
+    };
   }
 }

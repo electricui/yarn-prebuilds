@@ -1,8 +1,9 @@
-import {Hooks as CoreHooks, Plugin, SettingsDefinition, SettingsType}   from '@yarnpkg/core';
+import {Hooks as CoreHooks, Plugin, SettingsType, SettingsDefinition} from '@yarnpkg/core';
 
+import {reduceDependency}                                             from './add-prebuilt-dependencies';
 import {PrebuildFetcher}                                              from './fetcher';
 import {PrebuildResolver}                                             from './resolver';
-import {reduceDependency}                                             from './add-prebuilt-dependencies'
+
 
 const prebuildSettings: {[name: string]: SettingsDefinition} = {
   prebuildRuntime: {
@@ -55,7 +56,7 @@ const plugin: Plugin<CoreHooks> = {
         },
       },
     },
-  }
+  },
 };
 
 // eslint-disable-next-line arca/no-default-export

@@ -1,8 +1,8 @@
 {
-  "name": "@yarnpkg/plugin-prebuilds",
-  "version": "0.1.0",
+  "name": "@electricui/yarn-plugin-prebuilds",
+  "version": "0.2.0",
+  "author": "Electric UI <support@electricui.com> (https://electricui.com)",
   "main": "./sources/index.ts",
-  "author": "Michael Orenstein <michael@whiteshadows.me>",
   "dependencies": {
     "@yarnpkg/cli": "^2.0.0-rc.29",
     "@yarnpkg/core": "^2.0.0-rc.23",
@@ -11,23 +11,29 @@
     "@yarnpkg/plugin-essentials": "^2.0.0-rc.23",
     "@yarnpkg/plugin-npm": "^2.0.0-rc.15",
     "@yarnpkg/plugin-pack": "^2.0.0-rc.17",
-    "node-abi": "^2.15.0",
+    "node-abi": "^2.17.0",
     "semver": "^7.1.2"
   },
   "devDependencies": {
     "@types/semver": "^7.1.0",
-    "@yarnpkg/builder": "^2.0.0-rc.19",
-    "@yarnpkg/cli": "^2.0.0-rc.29",
-    "@yarnpkg/core": "^2.0.0-rc.23",
-    "@yarnpkg/plugin-essentials": "^2.0.0-rc.23",
+    "@yarnpkg/builder": "workspace:^2.0.0-rc.19",
+    "@yarnpkg/cli": "workspace:^2.0.0-rc.29",
+    "@yarnpkg/core": "workspace:^2.0.0-rc.23",
+    "@yarnpkg/plugin-essentials": "workspace:^2.0.0-rc.23",
     "typescript": "^3.7.5"
   },
   "scripts": {
-    "build": "builder build plugin"
+    "build:plugin-prebuilds": "builder build plugin"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Mike-Dax/yarn-prebuilds.git"
+    "url": "https://github.com/electricui/yarn-prebuilds.git"
   },
-  "license": "MIT"
+  "publishConfig": {
+    "main": "./lib/index.js",
+    "typings": "./lib/index.d.ts"
+  },
+  "files": [
+    "/lib/**/*"
+  ]
 }
