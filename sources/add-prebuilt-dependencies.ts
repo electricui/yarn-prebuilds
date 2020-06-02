@@ -6,6 +6,10 @@ export const reduceDependency = async (
   project: Project,
   locator: Locator,
 ) => {
+  // Temporary special case for fsevents on platforms that aren't darwin.
+  if (locator.name === `fsevents` && process.platform !== `darwin`)
+    return dependency;
+
   if (dependency.name === `bindings` && dependency.scope === null) {
     // extra.resolveOptions.report.reportInfo(MessageName.UNNAMED, `Found a bindings dependency in ${structUtils.stringifyIdent(locator)}, re-routing to prebuild.`);
     const selector = `builtin<prebuild/${structUtils.stringifyIdent(locator)}>`; // TODO: Add process.platform and arch to this

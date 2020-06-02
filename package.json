@@ -1,6 +1,6 @@
 {
   "name": "@electricui/yarn-plugin-prebuilds",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "Electric UI <support@electricui.com> (https://electricui.com)",
   "main": "./sources/index.ts",
   "dependencies": {
