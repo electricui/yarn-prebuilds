@@ -11,7 +11,7 @@
     "@yarnpkg/plugin-essentials": "^2.0.0-rc.23",
     "@yarnpkg/plugin-npm": "^2.0.0-rc.15",
     "@yarnpkg/plugin-pack": "^2.0.0-rc.17",
-    "node-abi": "^2.17.0",
+    "node-abi": "^2.18.0",
     "semver": "^7.1.2"
   },
   "devDependencies": {
