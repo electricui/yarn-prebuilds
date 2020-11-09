@@ -1,48 +1,71 @@
-import {Hooks as CoreHooks, Plugin, SettingsType, SettingsDefinition} from '@yarnpkg/core';
+import { MapConfigurationValue, Plugin, SettingsType } from '@yarnpkg/core'
 
-import {reduceDependency}                                             from './add-prebuilt-dependencies';
-import {PrebuildFetcher}                                              from './fetcher';
-import {PrebuildResolver}                                             from './resolver';
+import { PrebuildFetcher } from './fetcher'
+import { PrebuildResolver } from './resolver'
+import { afterAllInstalled } from './afterAllInstalled'
+import { reduceDependency } from './reduceDependency'
 
+/**
+ * Intercept all dependencies on bindings, rewrite them to a blank package.
+ *
+ * During a post-link step, replace all bindings with a statically linked one to the OS' prebuilt files.
+ */
 
-const prebuildSettings: {[name: string]: SettingsDefinition} = {
+const prebuildSettings = {
   prebuildRuntime: {
     description: `The runtime used, either 'electron' or 'node'`,
-    type: SettingsType.STRING,
+    type: SettingsType.STRING as const,
     default: null,
   },
   prebuildAbi: {
     description: `The ABI of the runtime used.`,
-    type: SettingsType.STRING,
+    type: SettingsType.STRING as const,
     default: null,
   },
   prebuildTagPrefix: {
     description: `The prebuild tag prefix`,
-    type: SettingsType.STRING,
+    type: SettingsType.STRING as const,
     default: `v`,
   },
   prebuildHostMirrorUrl: {
     description: `The prebuild host mirror URL`,
-    type: SettingsType.STRING,
+    type: SettingsType.STRING as const,
     default: null,
   },
   prebuildHostMirrorTemplate: {
     description: `The prebuild host mirror template`,
-    type: SettingsType.STRING,
+    type: SettingsType.STRING as const,
     default: `{mirror_url}/{tag_prefix}{version}/{name}-v{version}-{runtime}-v{abi}-{platform}{libc}-{arch}.tar.gz`,
   },
-};
+}
 
-const plugin: Plugin<CoreHooks> = {
+declare module '@yarnpkg/core' {
+  interface ConfigurationValueMap {
+    prebuildRuntime: string | null
+    prebuildAbi: string | null
+    prebuildTagPrefix: string
+    prebuildHostMirrorUrl: string | null
+    prebuildHostMirrorTemplate: string
+    prebuildScopes: Map<
+      string,
+      MapConfigurationValue<{
+        prebuildRuntime: string | null
+        prebuildAbi: string | null
+        prebuildTagPrefix: string
+        prebuildHostMirrorUrl: string | null
+        prebuildHostMirrorTemplate: string
+      }>
+    >
+  }
+}
+
+const plugin: Plugin = {
   hooks: {
     reduceDependency,
+    afterAllInstalled,
   },
-  fetchers: [
-    PrebuildFetcher,
-  ],
-  resolvers: [
-    PrebuildResolver,
-  ],
+  fetchers: [PrebuildFetcher],
+  resolvers: [PrebuildResolver],
   configuration: {
     ...prebuildSettings,
     prebuildScopes: {
@@ -57,7 +80,6 @@ const plugin: Plugin<CoreHooks> = {
       },
     },
   },
-};
+}
 
-// eslint-disable-next-line arca/no-default-export
-export default plugin;
+export default plugin

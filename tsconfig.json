@@ -1,15 +1,13 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
-    "esModuleInterop": true,
     "experimentalDecorators": true,
-    "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
-    "lib": ["dom", "es2017", "esnext.asynciterable"],
     "module": "commonjs",
-    "strict": true,
-    "target": "es2017",
-    "declaration": true
+    "target": "es2018",
+    "lib": [
+      "es2018"
+    ]
   },
+  "include": [
+    "sources/**/*.ts"
+  ]
 }

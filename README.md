@@ -22,7 +22,7 @@ For example, we use webpack-dev-server and have a loader that provides an absolu
 
 ## All Configuration
 
-Configuration can be set in your .yarnrc.yml file.
+Configuration can be set in your .yarncr.yml file.
 
 ```yml
 prebuildScopes:
