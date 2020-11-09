@@ -58,7 +58,7 @@ async function findBindingsDependencies(project: Project, opts: InstallOptions) 
 }
 
 export async function afterAllInstalled(project: Project, opts: InstallOptions) {
-  await opts.report.startTimerPromise(`Native dependency step`, async () => {
+  await opts.report.startTimerPromise(`Native dependency resolution`, async () => {
     // In the config file all native modules must already be unplugged
 
     // Find all bindings dependencies

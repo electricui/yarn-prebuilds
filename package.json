@@ -1,6 +1,6 @@
 {
   "name": "@electricui/yarn-plugin-prebuilds",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "author": "Electric UI <support@electricui.com> (https://electricui.com)",
   "main": "./sources/index.ts",
   "dependencies": {
@@ -21,5 +21,9 @@
     "eslint": "^6.8.0",
     "eslint-plugin-arca": "^0.9.0",
     "eslint-plugin-react": "^7.20.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/electricui/yarn-prebuilds.git"
   }
 }

@@ -43,7 +43,7 @@ export async function mutatePackage(
   }-${normalisedArch()}-${prebuildOptions.runtime}-${prebuildOptions.abi}`.replace(/\//g, '-')
 
   // Check if the cache key exists / matches
-  const cacheKeyLocation = ppath.join(packageLocation, `cacheKey.js` as Filename)
+  const cacheKeyLocation = ppath.join(packageLocation, `.cache_key` as Filename)
   if (await packageFs.existsPromise(cacheKeyLocation)) {
     const cacheKey = (await packageFs.readFilePromise(cacheKeyLocation)).toString()
 
