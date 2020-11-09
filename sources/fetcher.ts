@@ -83,6 +83,7 @@ export class PrebuildFetcher implements Fetcher {
     await generatedPackage.writeJsonPromise(`package.json` as Filename, {
       name: structUtils.slugifyLocator(locator),
       main: `./index.js`,
+      preferUnplugged: true, // Tell yarn to unplug the bindings package
     })
 
     // write our index.js
