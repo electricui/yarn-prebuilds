@@ -1,4 +1,4 @@
-import { Descriptor, Locator, MessageName, Project, ResolveOptions, structUtils } from '@yarnpkg/core'
+import { Descriptor, Locator, Project, ResolveOptions, structUtils } from '@yarnpkg/core'
 
 import { Resolver } from 'dns'
 

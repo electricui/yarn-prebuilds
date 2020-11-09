@@ -1,5 +1,5 @@
 import { CwdFS, Filename, LazyFS, NodeFS, PortablePath, ZipFS, ppath, xfs } from '@yarnpkg/fslib'
-import { FetchOptions, Fetcher, Locator, MinimalFetchOptions, hashUtils, miscUtils, structUtils } from '@yarnpkg/core'
+import { FetchOptions, Fetcher, Locator, MinimalFetchOptions, miscUtils, structUtils } from '@yarnpkg/core'
 
 import { getLibzipPromise } from '@yarnpkg/libzip'
 

@@ -1,4 +1,4 @@
-import { CwdFS, Filename, NativePath, PortablePath, ZipOpenFS } from '@yarnpkg/fslib'
+import { CwdFS, Filename, PortablePath, ZipOpenFS } from '@yarnpkg/fslib'
 import {
   FetchResult,
   Locator,
@@ -12,11 +12,11 @@ import {
   structUtils,
 } from '@yarnpkg/core'
 import { PrebuildCalculatedOptions, getElectronABI, getUrlOfPrebuild, normalisedArch, walk } from './utils'
-import { npath, ppath, toFilename, xfs } from '@yarnpkg/fslib'
 
 import { InstallOptions } from '@yarnpkg/core/lib/Project'
 import { PassThrough } from 'stream'
 import { getLibzipPromise } from '@yarnpkg/libzip'
+import { ppath } from '@yarnpkg/fslib'
 
 export async function mutatePackage(
   pkg: Package,
@@ -112,8 +112,9 @@ export async function mutatePackage(
 
   // write our index.js
   const templateIndex = `// Automatically generated bindings file for ${structUtils.stringifyIdent(pkg)}
-// Bindings taken from ${bindingsLocation}
-// ${prebuildOptions.runtime} abi: ${prebuildOptions.abi}
+// Package version: ${pkg.version}
+// Runtime: ${prebuildOptions.runtime}, ABI: ${prebuildOptions.abi}
+// Bindings taken from: ${bindingsLocation}
 
 const staticRequire = require("./bindings.node");
 module.exports = (fileLookingFor) => {

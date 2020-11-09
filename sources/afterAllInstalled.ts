@@ -1,10 +1,8 @@
-import { DescriptorHash, IdentHash, LocatorHash, MessageName, Package, Project, structUtils } from '@yarnpkg/core'
+import { LocatorHash, MessageName, Package, Project, structUtils } from '@yarnpkg/core'
 
 import { InstallOptions } from '@yarnpkg/core/lib/Project'
 import { getElectronVersion } from './utils'
 import { mutatePackage } from './mutation'
-
-const sleep = (delay: number) => new Promise((resolve, reject) => setTimeout(resolve, delay))
 
 function isDependencyBindings(pkg: Package) {
   // We don't have an engines check yet, so do it manually here
