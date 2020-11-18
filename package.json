@@ -1,18 +1,18 @@
 {
   "name": "@electricui/yarn-plugin-prebuilds",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "author": "Electric UI <support@electricui.com> (https://electricui.com)",
   "main": "./sources/index.ts",
   "dependencies": {
-    "@yarnpkg/core": "^2.3.0",
-    "@yarnpkg/builder": "^2.1.2",
     "@types/node": "^12.0.0",
-    "clipanion": "^2.6.2",
-    "typescript": "4.1.0-beta",
-    "node-abi": "2.19.1",
-    "semver": "^7.1.2",
+    "@yarnpkg/builder": "^2.1.2",
+    "@yarnpkg/core": "^2.3.0",
     "@yarnpkg/fslib": "^2.3.0",
-    "@yarnpkg/libzip": "^2.2.1"
+    "@yarnpkg/libzip": "^2.2.1",
+    "clipanion": "^2.6.2",
+    "node-abi": "^2.19.2",
+    "semver": "^7.1.2",
+    "typescript": "4.1.0-beta"
   },
   "scripts": {
     "build": "builder build plugin"
