@@ -32,18 +32,23 @@ export class PrebuildResolver implements Resolver {
   }
 
   getResolutionDependencies(descriptor: Descriptor, opts: MinimalResolveOptions) {
-    return []
+    return {}
   }
 
-  async getCandidates(descriptor: Descriptor, dependencies: Map<DescriptorHash, Package>, opts: ResolveOptions) {
+  async getCandidates(descriptor: Descriptor, dependencies: unknown, opts: ResolveOptions) {
     if (!opts.fetchOptions)
       throw new Error(`Assertion failed: This resolver cannot be used unless a fetcher is configured`)
 
     return [structUtils.makeLocator(structUtils.parseIdent(`bindings`), descriptor.range)]
   }
 
-  async getSatisfying(descriptor: Descriptor, references: Array<string>, opts: ResolveOptions) {
-    return null
+  async getSatisfying(descriptor: Descriptor, dependencies: Record<string, Package>, locators: Array<Locator>, opts: ResolveOptions) {
+    const [locator] = await this.getCandidates(descriptor, dependencies, opts);
+
+    return {
+      locators: locators.filter(candidate => candidate.locatorHash === locator.locatorHash),
+      sorted: false,
+    };
   }
 
   async resolve(locator: Locator, opts: ResolveOptions): Promise<Package> {

@@ -64,7 +64,7 @@ function getConfigEntry<T>(nativeModule: Package, entry: string, project: Projec
 
   if (effectiveConfiguration.get(entry)) return effectiveConfiguration.get(entry)
 
-  return configuration.get(entry)
+  return configuration.get(entry) as T
 }
 
 export function getElectronABI(electronVersion: string): string {
@@ -87,7 +87,6 @@ async function getGithubLink(nativeModule: Package, project: Project) {
   const registryData = await npmHttpUtils.get(npmHttpUtils.getIdentUrl(nativeModule), {
     configuration: project.configuration,
     ident: nativeModule,
-    json: true,
   })
 
   if (!Object.prototype.hasOwnProperty.call(registryData, `versions`))

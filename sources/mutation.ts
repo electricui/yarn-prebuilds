@@ -1,4 +1,4 @@
-import { CwdFS, Filename, PortablePath, ZipOpenFS } from '@yarnpkg/fslib'
+import { CwdFS, Filename, PortablePath } from '@yarnpkg/fslib'
 import {
   FetchResult,
   Locator,
@@ -17,6 +17,7 @@ import { InstallOptions } from '@yarnpkg/core/lib/Project'
 import { PassThrough } from 'stream'
 import { getLibzipPromise } from '@yarnpkg/libzip'
 import { ppath } from '@yarnpkg/fslib'
+import { ZipOpenFS } from '@yarnpkg/libzip'
 
 export async function mutatePackage(
   pkg: Package,

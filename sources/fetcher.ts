@@ -1,5 +1,6 @@
-import { CwdFS, Filename, LazyFS, NodeFS, PortablePath, ZipFS, ppath, xfs } from '@yarnpkg/fslib'
+import { AliasFS, CwdFS, Filename, LazyFS, NodeFS, PortablePath, ppath, xfs } from '@yarnpkg/fslib'
 import { FetchOptions, Fetcher, Locator, MinimalFetchOptions, miscUtils, structUtils } from '@yarnpkg/core'
+import {DEFAULT_COMPRESSION_LEVEL, ZipFS}                        from '@yarnpkg/libzip';
 
 import { getLibzipPromise } from '@yarnpkg/libzip'
 
@@ -35,33 +36,26 @@ export class PrebuildFetcher implements Fetcher {
     await xfs.mkdirpPromise(ppath.dirname(cachePath))
     await xfs.movePromise(originalPath, cachePath)
 
-    let readOnlyZipFs: ZipFS | null = null
+    let zipFs: ZipFS | undefined;
 
-    const libzip = await getLibzipPromise()
-    const lazyFs: LazyFS<PortablePath> = new LazyFS<PortablePath>(
-      () =>
-        miscUtils.prettifySyncErrors(
-          () => {
-            return (readOnlyZipFs = new ZipFS(cachePath, { baseFs, libzip, readOnly: true }))
-          },
-          message => {
-            return `Failed to open the cache entry for ${structUtils.prettyLocator(
-              opts.project.configuration,
-              locator,
-            )}: ${message}`
-          },
-        ),
-      ppath,
-    )
+    const zipFsBuilder = () => new ZipFS(cachePath, {baseFs, readOnly: true});
+
+    const lazyFs = new LazyFS<PortablePath>(() => miscUtils.prettifySyncErrors(() => {
+      return zipFs = zipFsBuilder();
+    }, message => {
+      return `Failed to open the cache entry for ${structUtils.prettyLocator(opts.project.configuration, locator)}: ${message}`;
+    }), ppath);
+
+    // We use an AliasFS to speed up getRealPath calls (e.g. VirtualFetcher.ensureVirtualLink)
+    // (there's no need to create the lazy baseFs instance to gather the already-known cachePath)
+    const aliasFs = new AliasFS(cachePath, {baseFs: lazyFs, pathUtils: ppath});
 
     const releaseFs = () => {
-      if (readOnlyZipFs !== null) {
-        readOnlyZipFs.discardAndClose()
-      }
-    }
+      zipFs?.discardAndClose();
+    };
 
     return {
-      packageFs: lazyFs,
+      packageFs: aliasFs,
       releaseFs,
       prefixPath: structUtils.getIdentVendorPath(locator),
       localPath: this.getLocalPath(locator, opts),
@@ -74,7 +68,7 @@ export class PrebuildFetcher implements Fetcher {
     const tmpFile = ppath.join(tmpDir, `prebuilt.zip` as Filename)
     const prefixPath = structUtils.getIdentVendorPath(locator)
 
-    const zipPackage = new ZipFS(tmpFile, { libzip: await getLibzipPromise(), create: true })
+    const zipPackage = new ZipFS(tmpFile, { create: true })
     await zipPackage.mkdirpPromise(prefixPath)
 
     const generatedPackage = new CwdFS(prefixPath, { baseFs: zipPackage })

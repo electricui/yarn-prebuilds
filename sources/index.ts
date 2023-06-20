@@ -1,4 +1,4 @@
-import { MapConfigurationValue, Plugin, SettingsType } from '@yarnpkg/core'
+import { miscUtils, Plugin, SettingsType } from '@yarnpkg/core'
 
 import { PrebuildFetcher } from './fetcher'
 import { PrebuildResolver } from './resolver'
@@ -48,7 +48,7 @@ declare module '@yarnpkg/core' {
     prebuildHostMirrorTemplate: string
     prebuildScopes: Map<
       string,
-      MapConfigurationValue<{
+      miscUtils.ToMapValue<{
         prebuildRuntime: string | null
         prebuildAbi: string | null
         prebuildTagPrefix: string
